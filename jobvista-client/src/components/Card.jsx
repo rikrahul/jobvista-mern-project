@@ -1,6 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
 import {FiCalendar, FiClock, FiDollarSign, FiMapPin, FiRss} from "react-icons/fi"
+import { LiaRupeeSignSolid } from "react-icons/lia";
 
 const Card = ({data}) => {
     const {companyName,jobTitle,companyLogo,minPrice,maxPrice,salaryType,jobLocation,employmentType,postingDate,description} =data;
@@ -16,7 +17,7 @@ const Card = ({data}) => {
                 <div className='text-primary/70 text-base flex flex-wrap gap-2 mb-2'>
                     <span className='flex items-center gap-2'><FiMapPin/> {jobLocation}</span>
                     <span className='flex items-center gap-2'><FiClock/> {employmentType}</span>
-                    <span className='flex items-center gap-2'><FiDollarSign/> {minPrice}-{maxPrice}k</span>
+                    <span className='flex items-center gap-2'><LiaRupeeSignSolid /> {minPrice}-{maxPrice}k</span>
                     <span className='flex items-center gap-2'><FiCalendar/> {postingDate}</span>
                 </div>
 

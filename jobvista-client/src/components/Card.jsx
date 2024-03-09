@@ -4,11 +4,11 @@ import {FiCalendar, FiClock, FiDollarSign, FiMapPin, FiRss} from "react-icons/fi
 import { LiaRupeeSignSolid } from "react-icons/lia";
 
 const Card = ({data}) => {
-    const {companyName,jobTitle,companyLogo,minPrice,maxPrice,salaryType,jobLocation,employmentType,postingDate,description} =data;
+    const {_id,companyName,jobTitle,companyLogo,minPrice,maxPrice,salaryType,jobLocation,employmentType,postingDate,description} =data;
 
   return (
     <section className='card'>
-        <Link  to={"/"} className="flex gap-4 flex-col sm:flex-row items-start">
+        <Link  to={`/job/${_id}`} className="flex gap-4 flex-col sm:flex-row items-start">
             <img src={companyLogo} alt="" width={100} height={100} />
             <div>
                 <h4 className='text-primary  mb-1'>{companyName}</h4>

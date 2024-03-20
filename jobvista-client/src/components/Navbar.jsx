@@ -11,7 +11,7 @@ const Navbar = () => {
     const navItems =[
         {path: "/home", title: "Search"},
         {path: "/my-job", title: "My Jobs"},
-        {path: "/salary", title: "Salary Estimate"},
+        // {path: "/salary", title: "Salary Estimate"},
         {path: "/post-job", title: "Post Job"},
     ]
   return (
@@ -45,8 +45,9 @@ const Navbar = () => {
 
             {/*signup and login button*/}
             <div className='text-base text-primary font-medium space-x-5 hidden lg:block'>
-                <Link to="/login" className='py-2 px-5 border rounded'>Log in</Link>
-                <Link to="/sign-up" className='py-2 px-5 border rounded bg-blue text-white'>Sign up</Link>
+                {/* <Link to="/login" className='py-2 px-5 border rounded'>Log in</Link> */}
+                {/* <div className='bg-[#fafafa] py-2 px-5  border rounded-lg'>Admin</div> */}
+                <Link to="/" className='py-2 px-5 border rounded bg-blue text-white'>Log Out</Link>
             </div>
 
 

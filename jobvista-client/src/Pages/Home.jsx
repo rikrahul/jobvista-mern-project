@@ -74,13 +74,13 @@ export const Home = () => {
 
     // category filtering
     if (selected) {
-      filteredJobs = filteredJobs.filter(({ jobLocation, maxPrice, experienceLevel, salaryType, employmentType, postingDate }) => 
-      jobLocation.toLowerCase() === selected.toLowerCase() ||
-      parseInt(maxPrice) <= parseInt(selected) ||
-      experienceLevel.toLowerCase() === selected.toLowerCase() ||
-      salaryType.toLowerCase() === selected.toLowerCase() ||
-      employmentType.toLowerCase() === selected.toLowerCase() ||
-      postingDate >= selected
+      filteredJobs = filteredJobs.filter(({ jobLocation, maxPrice, experienceLevel, salaryType, employmentType, postingDate }) =>
+        jobLocation.toLowerCase() === selected.toLowerCase() ||
+        parseInt(maxPrice) <= parseInt(selected) ||
+        experienceLevel.toLowerCase() === selected.toLowerCase() ||
+        salaryType.toLowerCase() === selected.toLowerCase() ||
+        employmentType.toLowerCase() === selected.toLowerCase() ||
+        postingDate >= selected
       );
       console.log(filteredJobs)
     }
@@ -131,7 +131,7 @@ export const Home = () => {
         </div>
 
         {/* Right side */}
-        <div className="bg-white p-4 rounded"><Newsletter/></div>
+        <div className="bg-white p-4 rounded"><Newsletter /></div>
       </div>
 
     </div>

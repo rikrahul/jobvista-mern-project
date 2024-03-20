@@ -1,6 +1,8 @@
 const express = require('express')
 const app = express()
 const cors = require('cors')
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
 const port = process.env.PORT || 3000;
 require('dotenv').config()
 
@@ -63,7 +65,8 @@ async function run() {
         }
 
         // Check if password matches
-        if (user.password !== password) {
+        const passwordMatch = await bcrypt.compare(password, user.password);
+        if (!passwordMatch) {
           return res.status(401).send({
             message: "Incorrect password.",
             status: false
@@ -71,9 +74,13 @@ async function run() {
         }
 
         // Login successful
+        // After verifying the user's credentials
+        const token = jwt.sign({ userId: user._id, userType: user.userType }, 'JOBVISTARAHULRIKHARI', { expiresIn: '1h' });
+
         return res.status(200).send({
           message: "Login successful.",
           status: true,
+          token: token,
           user: {
             id: user._id,
             name: user.name,
@@ -82,6 +89,18 @@ async function run() {
             // Add any other user data you want to send back
           }
         });
+
+        // return res.status(200).send({
+        //   message: "Login successful.",
+        //   status: true,
+        //   user: {
+        //     id: user._id,
+        //     name: user.name,
+        //     email: user.email,
+        //     userType: user.userType
+        //     // Add any other user data you want to send back
+        //   }
+        // });
       } catch (error) {
         console.error("Error during login:", error);
         return res.status(500).send({
@@ -99,22 +118,47 @@ async function run() {
       res.send(user_signup);
     })
 
-    // post usersignup data
     app.post("/sign-up", async (req, res) => {
       const body = req.body;
-      body.createAt = new Date();
-      // console.log(body)
-      const result = await userSignupCollection.insertOne(body);
-      if (result.insertedId) {
-        return res.status(200).send(result);
-      }
-      else {
-        return res.status(404).send({
-          message: "Data not inserted! Try Again later",
+      const hashedPassword = await bcrypt.hash(body.password, 10); // 10 is the salt rounds
+      body.password = hashedPassword;
+      body.createdAt = new Date();
+
+      try {
+        const result = await userSignupCollection.insertOne(body);
+        if (result.insertedId) {
+          return res.status(200).send(result);
+        } else {
+          return res.status(404).send({
+            message: "Data not inserted! Try Again later",
+            status: false
+          });
+        }
+      } catch (error) {
+        console.error("Error during sign-up:", error);
+        return res.status(500).send({
+          message: "Internal server error.",
           status: false
-        })
+        });
       }
-    })
+    });
+
+    // // post usersignup data
+    // app.post("/sign-up", async (req, res) => {
+    //   const body = req.body;
+    //   body.createAt = new Date();
+    //   // console.log(body)
+    //   const result = await userSignupCollection.insertOne(body);
+    //   if (result.insertedId) {
+    //     return res.status(200).send(result);
+    //   }
+    //   else {
+    //     return res.status(404).send({
+    //       message: "Data not inserted! Try Again later",
+    //       status: false
+    //     })
+    //   }
+    // })
 
 
     // post jobs

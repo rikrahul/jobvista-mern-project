@@ -15,40 +15,39 @@ const UpdateJob = () => {
     } = useForm()
 
     const onSubmit = (data) => {
-        data.skills = selectedOption;
+        if (selectedOption) {
+            data.skills = selectedOption;
+        }
         fetch(`http://localhost:3000/update-job/${id}`,{
             method: "PATCH",
             headers: {'content-type': 'application/json'},
             body: JSON.stringify(data)
         }).then(res => res.json()).then((result) => {
-            console.log(result)
             if(result.acknowledged === true){
-                alert("Job Updated Successfully!!!")
-                setSelectedOption(null);
-                resetForm();
+                alert("Job Updated Successfully!!!");
             }
-            //reset(); // Reset the form after successful submission
         });
     };
+    
 
-    const resetForm = () => {
-        // Reset individual input values
-        // You can add more fields as needed
-        reset({
-            jobTitle: "",
-            companyName: "",
-            minPrice: "",
-            maxPrice: "",
-            salaryType: "",
-            jobLocation: "",
-            postingDate: "",
-            experienceLevel: "",
-            companyLogo: "",
-            employmentType: "",
-            description: "",
-            postedBy: ""
-        });
-    };
+    // const resetForm = () => {
+    //     // Reset individual input values
+    //     // You can add more fields as needed
+    //     reset({
+    //         jobTitle: "",
+    //         companyName: "",
+    //         minPrice: "",
+    //         maxPrice: "",
+    //         salaryType: "",
+    //         jobLocation: "",
+    //         postingDate: "",
+    //         experienceLevel: "",
+    //         companyLogo: "",
+    //         employmentType: "",
+    //         description: "",
+    //         postedBy: ""
+    //     });
+    // };
 
     const options = [
         { value: "Javascript", label: "Javascript" },

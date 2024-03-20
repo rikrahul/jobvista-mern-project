@@ -39,42 +39,52 @@ const Login = () => {
                     },
                     body: JSON.stringify(loginData),
                 });
-                
+
                 if (!response.ok) {
                     const errorData = await response.json();
                     throw new Error(errorData.message || 'Failed to login.');
                 }
+
                 await Swal.fire({
                     title: "Login Successful !!",
                     showClass: {
-                      popup: `
-                        animate__animated
-                        animate__fadeInUp
-                        animate__faster
-                      `
+                        popup: `
+                            animate__animated
+                            animate__fadeInUp
+                            animate__faster
+                        `
                     },
                     hideClass: {
-                      popup: `
-                        animate__animated
-                        animate__fadeOutDown
-                        animate__faster
-                      `
+                        popup: `
+                            animate__animated
+                            animate__fadeOutDown
+                            animate__faster
+                        `
                     }
                 });
+
                 console.log('Login successful!');
-                window.location.href="/home";
+                if (loginData.userType.trim() === 'admin') {
+                    window.location.href = "/home";
+                }
+                else if (loginData.userType.trim() === 'user') {
+                    window.location.href = "/user-home";
+                }
+
+
             } catch (error) {
                 Swal.fire({
                     icon: "error",
                     title: "Login Failed",
                     text: "Something went wrong!",
-                  });
+                });
                 console.error('Login error:', error.message);
                 // Handle error, such as displaying error message to the user
             }
         }
     };
-    
+
+
     // const handleLoginSubmit = (e) => {
     //     e.preventDefault();
     //     if (validateForm()) {

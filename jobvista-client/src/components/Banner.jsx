@@ -12,7 +12,7 @@ const Banner = ({query,handleInputChange}) => {
             <div className='flex justify-start md:flex-row flex-col md:gap-0 gap-4'>
             <div className='flex md:rounded-s-md rounded shadow-sm ring-1 ring-inset ring-gray-300 
             focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 md:w-1/2 w-full'>
-                <input type="text" name="title" id="title" placeholder='What positon are you loking for ?' className='block flex-1 border-0 bg-transparent 
+                <input type="text" name="title" id="title" placeholder='What positon are you looking for ?' className='block flex-1 border-0 bg-transparent 
                 py-1.5 pl-8 text-gray-900 placeholder:text-gray-400 focus:right-0 sm:text-sm sm:leading-6'
                 onChange={handleInputChange}
                 value={query}                

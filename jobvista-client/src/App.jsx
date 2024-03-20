@@ -1,5 +1,5 @@
 
-import { Outlet,useLocation } from 'react-router-dom'
+import { Outlet, useLocation } from 'react-router-dom'
 import './App.css'
 import Navbar from './components/Navbar'
 import Homepage from './home_main/Homepage'
@@ -10,7 +10,7 @@ function App() {
     '/home',
     '/post-job',
     '/my-job',
-    '/salary',
+    // '/salary',
     '/edit-job', // Add edit-job/:id route
     '/job'       // Add /job/:id route
   ];

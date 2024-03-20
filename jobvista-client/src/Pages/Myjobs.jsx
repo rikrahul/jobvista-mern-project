@@ -41,13 +41,27 @@ const Myjobs = () => {
   }
  }
 
+ const handleSearch = () => {
+  const filter = jobs.filter((job) => {
+    const titleMatch = job.jobTitle.toLowerCase().includes(searchText.toLowerCase());
+    const companyMatch = job.companyName.toLowerCase().includes(searchText.toLowerCase());
+    return titleMatch || companyMatch;
+  });
 
-  const handleSearch = () => {
-    const filter = jobs.filter((job) => job.jobTitle.toLowerCase().indexOf(searchText.toLowerCase()) !== -1);
-    // console.log(filter)
-    setJobs(filter);
-    setIsLoading(false)
-  }
+  setJobs(filter);
+  setIsLoading(false);
+}
+
+
+  // const handleSearch = () => {
+  //   const titleMatch = job.jobTitle.toLowerCase().indexOf(searchText.toLowerCase()) !== -1;
+  //   const companyMatch = job.companyName.toLowerCase().indexOf(searchText.toLowerCase()) !== -1;
+  //   return titleMatch || companyMatch;
+  //   // const filter = jobs.filter((job) => job.jobTitle.toLowerCase().indexOf(searchText.toLowerCase()) !== -1);
+  //   // console.log(filter)
+  //   setJobs(filter);
+  //   setIsLoading(false)
+  // }
 
   const handleDelete = (id) => {
     fetch(`http://localhost:3000/job/${id}`, {

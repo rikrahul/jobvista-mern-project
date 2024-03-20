@@ -12,6 +12,9 @@ import Homepage from "../home_main/Homepage";
 import Singup from "../home_main/Singup";
 import Login from "../home_main/Login";
 import JobsDetails from "../Pages/JobsDetails";
+import Userhome from "../userPages/Userhome";
+import Userjobdetails from "../userPages/Userjobdetails";
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -24,6 +27,10 @@ const router = createBrowserRouter([
       {
         path: "/login",
         element: <Login />
+      },
+      {
+        path: "/user-home",
+        element: <Userhome />
       },
       {
         path: "/home",
@@ -48,15 +55,19 @@ const router = createBrowserRouter([
       },
       {
         path: "/job/:id",
-        element: <JobsDetails/>
+        element: <JobsDetails />
+      },
+      {
+        path: "/Ujob/:id",
+        element: <Userjobdetails />
       }
 
     ],
   },
   {
-      path: "/sign-up",
-      element: <Singup />
-  }
+    path: "/sign-up",
+    element: <Singup />
+  },
 ]);
 
 export default router;

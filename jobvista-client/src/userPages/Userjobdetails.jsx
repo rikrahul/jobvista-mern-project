@@ -162,7 +162,12 @@ const Userjobdetails = () => {
                     </p>
                 </p>
             </div>
-            <button className="block my-8 bg-blue text-white font-semibold px-8 py-2 rounded-sm cursor-pointer">Apply</button>
+            {/* 7th row  */}
+            <div className="w-full mb-5">
+                <label className="block mb-2 font-bold text-lg">Job Posted By</label>
+                <p className='text-black/70'>{job.postedBy}</p>
+            </div>
+            <Link to={`/job-applications/${id}`} className="inline bg-blue text-white font-semibold px-8 py-2 rounded-sm cursor-pointer">Apply Now</Link>
             {/* <input type="submit" className="block mt-12 bg-blue text-white font-semibold px-8 py-2 rounded-sm cursor-pointer" /> */}
 
         </div>

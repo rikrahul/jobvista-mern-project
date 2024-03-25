@@ -14,6 +14,7 @@ import Login from "../home_main/Login";
 import JobsDetails from "../Pages/JobsDetails";
 import Userhome from "../userPages/Userhome";
 import Userjobdetails from "../userPages/Userjobdetails";
+import JobApply from "../userPages/JobApply";
 
 const router = createBrowserRouter([
   {
@@ -68,6 +69,10 @@ const router = createBrowserRouter([
     path: "/sign-up",
     element: <Singup />
   },
+  {
+    path: "/job-applications/:id",
+    element: <JobApply/>
+  }
 ]);
 
 export default router;

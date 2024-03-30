@@ -96,6 +96,11 @@ const Userjobdetails = () => {
                 </div>
             </header>
             <PageHeader title={job.jobTitle} path={job.jobTitle} />
+
+            <div className="w-full">
+                <label className="block mb-2 font-bold text-lg">Job Id</label>
+                <p className='text-black/70'>{id}</p>
+            </div>
             {/* 1st Row */}
             <div className="create-job-flex pt-4">
                 <div className="lg:w-1/2 w-full">

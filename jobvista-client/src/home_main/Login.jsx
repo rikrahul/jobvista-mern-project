@@ -68,7 +68,8 @@ const Login = () => {
                     window.location.href = "/home";
                 }
                 else if (loginData.userType.trim() === 'user') {
-                    window.location.href = "/user-home";
+                    localStorage.setItem('userEmail', loginData.email);
+                    window.location.href = `/user-home`;
                 }
 
 

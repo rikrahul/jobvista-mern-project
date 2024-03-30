@@ -74,16 +74,18 @@ export const Home = () => {
 
     // category filtering
     if (selected) {
+      // Convert selected date string to Date object
+      const selectedDate = new Date(selected);
       filteredJobs = filteredJobs.filter(({ jobLocation, maxPrice, experienceLevel, salaryType, employmentType, postingDate }) =>
-        jobLocation.toLowerCase() === selected.toLowerCase() ||
-        parseInt(maxPrice) <= parseInt(selected) ||
-        experienceLevel.toLowerCase() === selected.toLowerCase() ||
-        salaryType.toLowerCase() === selected.toLowerCase() ||
-        employmentType.toLowerCase() === selected.toLowerCase() ||
-        postingDate >= selected
+          jobLocation.toLowerCase() === selected.toLowerCase() ||
+          parseInt(maxPrice) <= parseInt(selected) ||
+          experienceLevel.toLowerCase() === selected.toLowerCase() ||
+          salaryType.toLowerCase() === selected.toLowerCase() ||
+          employmentType.toLowerCase() === selected.toLowerCase() ||
+          new Date(postingDate) >= selectedDate // Convert postingDate to Date object for comparison
       );
-      console.log(filteredJobs)
-    }
+      console.log(filteredJobs);
+  }
     // slice the data based on current page
     const { startIndex, endIndex } = calculatePageRange();
     filteredJobs = filteredJobs.slice(startIndex, endIndex)

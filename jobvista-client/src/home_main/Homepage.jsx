@@ -35,7 +35,7 @@ const Homepage = () => {
                     <p className='text-lg max-w-screen-sm text-black/70 mb-8'>Thousands of jobs in the computer, engineering and technology sectors are waiting for you.</p>
                     <button className='mt-8 py-2 px-8 border rounded bg-blue text-white text-2xl'>Find</button>
                 </div>
-                <img src="\public\images\search.jpg" alt="" className='max-w-md' />
+                <img src="/images/search.jpg" alt="" className='max-w-md' />
             </div>
         </div>
     )

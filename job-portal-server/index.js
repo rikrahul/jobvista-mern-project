@@ -38,6 +38,37 @@ async function run() {
 
     //create usersignup collection
     const userSignupCollection = db.collection("user_signup");
+    const jobApplcationCollection = db.collection("jobApplication");
+
+    //get all jobApplication data
+    app.get("/all-jobApplication", async (req, res) => {
+      const jobApplication = await jobApplcationCollection.find({}).toArray()
+      res.send(jobApplication);
+    })
+
+        //get application by email
+        app.get("/all-jobApplication/:userEmail", async (req, res) => {
+          // console.log(req.params.userEmail)
+          const jobApplication = await jobApplcationCollection.find({ email: req.params.userEmail }).toArray();
+          res.send(jobApplication)
+        })
+
+    //job apply
+    app.post("/job-applications/:id", async (req, res) => {
+      const body = req.body;
+      body.createAt = new Date();
+      // console.log(body)
+      const result = await jobApplcationCollection.insertOne(body);
+      if (result.insertedId) {
+        return res.status(200).send(result);
+      }
+      else {
+        return res.status(404).send({
+          message: "Data not inserted! Try Again later",
+          status: false
+        })
+      }
+    })
 
     //login
     // Login endpoint
@@ -143,22 +174,7 @@ async function run() {
       }
     });
 
-    // // post usersignup data
-    // app.post("/sign-up", async (req, res) => {
-    //   const body = req.body;
-    //   body.createAt = new Date();
-    //   // console.log(body)
-    //   const result = await userSignupCollection.insertOne(body);
-    //   if (result.insertedId) {
-    //     return res.status(200).send(result);
-    //   }
-    //   else {
-    //     return res.status(404).send({
-    //       message: "Data not inserted! Try Again later",
-    //       status: false
-    //     })
-    //   }
-    // })
+
 
 
     // post jobs

@@ -1,7 +1,7 @@
+import React, { useState, useEffect } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import { FaBarsStaggered, FaXmark } from "react-icons/fa6";
-import { useEffect, useState } from "react";
-import Banner from "../components/Banner"
+import Banner from "../components/Banner";
 import Jobs from "../Pages/Jobs";
 import Sidebar from "../sidebar/Sidebar";
 import Newsletter from "../components/Newsletter";
@@ -18,11 +18,10 @@ const Userhome = () => {
     useEffect(() => {
         setIsLoading(true);
         fetch("http://localhost:3000/all-jobs").then(res => res.json()).then(data => {
-            // console.log(data)
             setJobs(data);
             setIsLoading(false);
         })
-    }, [])
+    }, []);
 
     //console.log(jobs)
     //handle input change
@@ -77,16 +76,19 @@ const Userhome = () => {
 
         // category filtering
         if (selected) {
+            // Convert selected date string to Date object
+            const selectedDate = new Date(selected);
             filteredJobs = filteredJobs.filter(({ jobLocation, maxPrice, experienceLevel, salaryType, employmentType, postingDate }) =>
                 jobLocation.toLowerCase() === selected.toLowerCase() ||
                 parseInt(maxPrice) <= parseInt(selected) ||
                 experienceLevel.toLowerCase() === selected.toLowerCase() ||
                 salaryType.toLowerCase() === selected.toLowerCase() ||
                 employmentType.toLowerCase() === selected.toLowerCase() ||
-                postingDate >= selected
+                new Date(postingDate) >= selectedDate // Convert postingDate to Date object for comparison
             );
-            console.log(filteredJobs)
+            console.log(filteredJobs);
         }
+
         // slice the data based on current page
         const { startIndex, endIndex } = calculatePageRange();
         filteredJobs = filteredJobs.slice(startIndex, endIndex)
@@ -102,7 +104,7 @@ const Userhome = () => {
 
     const navItems = [
         { path: "/user-home", title: "Search" },
-        { path: "/my-applications", title: "My Applications" },
+        { path: `/my-applications`, title: "My Applications" },
         { path: "/salary", title: "Salary Estimate" },
         // { path: "/post-job", title: "Post Job" },
     ]

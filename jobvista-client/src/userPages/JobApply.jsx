@@ -1,117 +1,136 @@
-import React, { useEffect, useState } from 'react'
-import { useForm } from "react-hook-form"
-import PageHeader from '../components/PageHeader'
+import React, { useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
+import PageHeader from '../components/PageHeader';
 import { useParams } from 'react-router-dom';
 
 const JobApply = () => {
+  const { register, handleSubmit, reset, formState: { errors } } = useForm(); // Destructure reset from useForm
   const { id } = useParams();
-  const [job, setJobs] = useState([])
-  useEffect(() => {
-    fetch(`http://localhost:3000/all-jobs/${id}`).then(res => res.json()).then(data => setJobs(data))
-  }, [])
+  const [job, setJobs] = useState([]);
+  const [userEmail, setUserEmail] = useState('');
+  const [resumeImage, setResumeImage] = useState(null);
 
-  const statesOfIndia = [
-    "Andaman and Nicobar Islands",
-    "Andhra Pradesh",
-    "Arunachal Pradesh",
-    "Assam",
-    "Bihar",
-    "Chandigarh",
-    "Chhattisgarh",
-    "Dadra and Nagar Haveli",
-    "Daman and Diu",
-    "Delhi",
-    "Goa",
-    "Gujarat",
-    "Haryana",
-    "Himachal Pradesh",
-    "Jammu and Kashmir",
-    "Jharkhand",
-    "Karnataka",
-    "Kerala",
-    "Ladakh",
-    "Lakshadweep",
-    "Madhya Pradesh",
-    "Maharashtra",
-    "Manipur",
-    "Meghalaya",
-    "Mizoram",
-    "Nagaland",
-    "Odisha",
-    "Puducherry",
-    "Punjab",
-    "Rajasthan",
-    "Sikkim",
-    "Tamil Nadu",
-    "Telangana",
-    "Tripura",
-    "Uttar Pradesh",
-    "Uttarakhand",
-    "West Bengal"
-  ];
+  useEffect(() => {
+    // Retrieve user's email from local storage
+    const storedEmail = localStorage.getItem('userEmail');
+    setUserEmail(storedEmail || '');
+    fetch(`http://localhost:3000/all-jobs/${id}`)
+      .then(res => res.json())
+      .then(data => setJobs(data));
+  }, [id]); // Include id in dependency array
+
+  const onSubmit = (data) => {
+    // Add jobId to the form data
+    data.jobId = id;
+    data.email = userEmail;
+
+    fetch(`http://localhost:3000/job-applications/${id}`, {
+      method: "POST",
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify(data)
+    })
+      .then(res => res.json())
+      .then((result) => {
+        console.log(result)
+        if (result.acknowledged === true) {
+          alert("Job Applied Successfully!!!")
+          reset(); // Reset form fields after successful submission
+        }
+      })
+      .catch(error => {
+        console.error('Error submitting form:', error);
+        // Handle error if submission fails
+      });
+  };
+
+  const handleResumeChange = (event) => {
+    const imageUrl = event.target.value;
+    setResumeImage(imageUrl);
+  };
 
   return (
-    <div className='max-w-screen-2xl conatainer mx-auto xl:px-24'>
+    <div className='max-w-screen-2xl container mx-auto xl:px-24'>
       <PageHeader title={job.jobTitle} path={job.companyName} />
 
-      <div className='bg-[#fafafa] m-5 py-10 px-4 rounded-2xl lg:px-16'>
-        <form className="space-y-5">
-          <img src={job.companyLogo} alt="" width={100} height={100} />
-          <label className="block mb-2 font-bold text-lg">Job Id : {id}</label>
-
-          {/* 1st Row */}
-          <div className="create-job-flex">
-            <div className="lg:w-1/2 w-full">
-              <label className="block mb-2 text-lg">Name</label>
-              <div className="border-2 border-blue">
-                <input type="text" class="create-job-input border-none focus:outline-none" />
-              </div>
-            </div>
-            <div className="lg:w-1/2 w-full">
-              <label className="block mb-2 text-lg">Email</label>
-              <div className="border-2 border-blue">
-                <input type="email" class="create-job-input border-none focus:outline-none" />
-              </div>
-            </div>
+      <div className='bg-gray-100 m-5 py-10 px-4 rounded-2xl lg:px-16 '>
+        <form onSubmit={handleSubmit(onSubmit)} className="max-w-lg mx-auto p-8 bg-white rounded-lg">
+          <h2 className="text-2xl bg-blue px-5 py-2 text-white text-center font-bold mb-4">Job Application Form</h2>
+          <div className='my-4 flex justify-center items-center'>
+            <img src={job.companyLogo} alt="" width={100} height={100} />
           </div>
-          {/* 2nd Row */}
-          <div className="create-job-flex">
-            <div className="lg:w-1/2 w-full">
-              <label className="block mb-2 text-lg">Phone No.</label>
-              <div className="border-2 border-blue">
-                <input type="text" class="create-job-input border-none focus:outline-none" />
-              </div>
-            </div>
-            <div className="lg:w-1/2 w-full">
-              <label className="block mb-2 text-lg">Location</label>
-              <div className='border-2 border-blue'>
-                <select className="create-job-input">
-                  <option value="">Select your Location</option>
-                  {statesOfIndia.map(state => (
-                    <option key={state} value={state}>{state}</option>
-                  ))}
-                </select>
-              </div>
-            </div>
+          <div className='mb-4'>
+            <label className="block mb-2 text-center text-gray-500 font-bold">{job.companyName}</label>
+            <label className="block mb-2 font-bold">Job Id</label>
+            <input
+              {...register("jobId")}
+              type="text"
+              id="jobId"
+              value={id}
+              disabled
+              className="border border-gray-300 rounded-md p-2 w-full"
+            />
           </div>
-          {/* 3rd row  */}
-          <div className="create-job-flex">
-            <div className="lg:w-1/2 w-full">
-              <label className="block mb-2 text-lg">CV</label>
-              <div className='border-2 border-blue'>
-                <input type="url" placeholder="paste your image url: https://cv.com/img.jpg"
-                  className="create-job-input" />
-              </div>
-            </div>
+          <div className="mb-4">
+            <label className="block mb-2 font-bold" htmlFor="name">Name</label>
+            <input
+              {...register("name", { required: "Name is required" })}
+              type="text"
+              id="name"
+              className="border border-gray-300 rounded-md p-2 w-full"
+            />
+            {errors.name && <p className="text-red-500">{errors.name.message}</p>}
           </div>
-          <div class="flex justify-center">
-            <input type="submit" class="block mt-12 bg-blue text-white font-semibold px-8 py-2 rounded-lg cursor-pointer" />
+          <div className="mb-4">
+            <label className="block mb-2 font-bold" htmlFor="email">Email</label>
+            <input
+              {...register("email")}
+              type="email"
+              id="email"
+              value={userEmail}
+              disabled
+              className="border border-gray-300 rounded-md p-2 w-full"
+            />
+            {/* {errors.email && <p className="text-red-500">{errors.email.message}</p>} */}
           </div>
-
+          <div className="mb-4">
+            <label className="block mb-2 font-bold" htmlFor="phone">Phone</label>
+            <input
+              {...register("phone", { required: "Phone number is required", pattern: { value: /^[0-9]*$/, message: "Invalid phone number" } })}
+              type="tel"
+              id="phone"
+              className="border border-gray-300 rounded-md p-2 w-full"
+            />
+            {errors.phone && <p className="text-red-500">{errors.phone.message}</p>}
+          </div>
+          <div className="mb-4">
+            <label className="block mb-2 font-bold" htmlFor="resume">Upload Resume</label>
+            <input
+              {...register("resume", { required: "Resume is required" })}
+              type="url"
+              placeholder="Paste your resume URL"
+              id="resume"
+              className="border border-gray-300 rounded-md p-2 w-full"
+              onChange={handleResumeChange}
+            />
+            {errors.resume && <p className="text-red-500">{errors.resume.message}</p>}
+            <div className='my-4 flex justify-center items-center'>
+            {resumeImage && <img src={resumeImage} alt="Resume Preview" className="max-w-full h-auto" />}
+          </div>
+          </div>
+          <div className="mb-4">
+            <label className="block mb-2 font-bold" htmlFor="coverLetter">Cover Letter</label>
+            <textarea
+              {...register("coverLetter", { required: "Cover letter is required" })}
+              id="coverLetter"
+              className="border border-gray-300 rounded-md p-2 w-full h-32"
+            />
+            {errors.coverLetter && <p className="text-red-500">{errors.coverLetter.message}</p>}
+          </div>
+          <button type="submit" className="bg-blue text-white px-4 py-2 rounded-md">Submit</button>
         </form>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default JobApply
+export default JobApply;

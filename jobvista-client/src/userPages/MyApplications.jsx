@@ -40,6 +40,32 @@ const MyApplications = () => {
         setIsMenuOpen(!isMenuOpen);
     };
 
+    // Handle delete application
+    const handleDelete = (applicationId) => {
+        fetch(`http://localhost:3000/all-jobApplication/${applicationId}`, {
+            method: "DELETE",
+        })
+            .then(res => {
+                if (!res.ok) {
+                    throw new Error(`Failed to delete job. Server returned status ${res.status}.`);
+                }
+                return res.json();
+            })
+            .then(data => {
+                if (data.acknowledged === true) {
+                    // Filter out the deleted job from the jobs array
+                    setApplications(application.filter(app => app._id !== applicationId));
+                    alert("Job Deleted Successfully!!!");
+                } else {
+                    alert("Failed to delete job. Please try again.");
+                }
+            })
+            .catch(error => {
+                console.error("Error deleting job:", error);
+                alert("An error occurred while deleting the job. Please try again later.");
+            });
+    }
+
     const navItems = [
         { path: "/user-home", title: "Search" },
         { path: "/my-applications", title: "My Applications" },
@@ -134,12 +160,12 @@ const MyApplications = () => {
                                 <div>
                                     {jobDetails && (
                                         <div>
-                                            <img src={jobDetails.companyLogo} alt="" width={100} height={100} />
+                                            <img src={jobDetails.companyLogo} alt="" width={100} height={100} className='ml-2' />
                                             <p className='pt-2 text-center'>{jobDetails.companyName}</p>
                                         </div>
                                     )}
                                 </div>
-                                <div>
+                                <div className='ml-15'>
                                     <p>Job Id: {data.jobId}</p>
                                     {jobDetails && (
                                         <p>Job Title : {jobDetails.jobTitle}</p>
@@ -149,7 +175,12 @@ const MyApplications = () => {
                                     {/* <p>Date : {new Date(data.createAt).toLocaleDateString()}</p> */}
                                     <p>Date & Time : {new Date(data.createAt).toLocaleString()}</p>
                                 </div>
+                                <div className="ml-auto flex items-center"> {/* Added this div for positioning Edit and Delete links */}
+                                    <Link className="mx-5 bg-blue px-4 py-2 text-white rounded-md">Edit</Link> {/* Added margin-right for spacing */}
+                                    <button onClick={() => handleDelete(data._id)} className="mx-5 bg-red-600 px-4 py-2 text-white rounded-md">Delete</button>
+                                </div>
                             </div>
+
                         );
                     })}
                 </div>

@@ -46,12 +46,12 @@ async function run() {
       res.send(jobApplication);
     })
 
-        //get application by email
-        app.get("/all-jobApplication/:userEmail", async (req, res) => {
-          // console.log(req.params.userEmail)
-          const jobApplication = await jobApplcationCollection.find({ email: req.params.userEmail }).toArray();
-          res.send(jobApplication)
-        })
+    //get application by email
+    app.get("/all-jobApplication/:userEmail", async (req, res) => {
+      // console.log(req.params.userEmail)
+      const jobApplication = await jobApplcationCollection.find({ email: req.params.userEmail }).toArray();
+      res.send(jobApplication)
+    })
 
     //job apply
     app.post("/job-applications/:id", async (req, res) => {
@@ -68,6 +68,14 @@ async function run() {
           status: false
         })
       }
+    })
+
+    //delete application
+    app.delete('/all-jobApplication/:id', async (req, res) => {
+      const id = req.params.id;
+      const filter = { _id: new ObjectId(id) }
+      const result = await jobApplcationCollection.deleteOne(filter);
+      res.send(result)
     })
 
     //login

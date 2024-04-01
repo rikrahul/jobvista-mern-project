@@ -16,6 +16,7 @@ import Userhome from "../userPages/Userhome";
 import Userjobdetails from "../userPages/Userjobdetails";
 import JobApply from "../userPages/JobApply";
 import MyApplications from "../userPages/MyApplications";
+import JobApplicants from "../Pages/JobApplicants";
 
 const router = createBrowserRouter([
   {
@@ -45,6 +46,10 @@ const router = createBrowserRouter([
       {
         path: "/my-job",
         element: <Myjobs />
+      },
+      {
+        path: "/job-applicants",
+        element: <JobApplicants/>
       },
       {
         path: "/salary",
@@ -77,7 +82,8 @@ const router = createBrowserRouter([
   {
     path: "/my-applications",
     element: <MyApplications />
-  }
+  },
+
 ]);
 
 export default router;

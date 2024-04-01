@@ -10,7 +10,7 @@ function App() {
     '/home',
     '/post-job',
     '/my-job',
-    // '/salary',
+    '/job-applicants',
     '/edit-job', // Add edit-job/:id route
     '/job'       // Add /job/:id route
   ];

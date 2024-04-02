@@ -45,7 +45,7 @@ const JobApplicants = () => {
                         // Find the corresponding job details
                         const jobDetails = jobs.find(job => job._id === data.jobId);
                         return (
-                            <div className='my-4 px-5 py-8 border-2 border-gray-200 rounded-md flex gap-10 flex-col sm:flex-row items-start text-gray-700' key={data._id}>
+                            <Link to={`/application-details/${data._id}`} className='my-4 px-5 py-8 border-2 border-gray-200 rounded-md flex gap-10 flex-col sm:flex-row items-start text-gray-700' key={data._id}>
                                 <div>
                                     {jobDetails && (
                                         <div>
@@ -64,7 +64,7 @@ const JobApplicants = () => {
                                     {/* <p>Date : {new Date(data.createAt).toLocaleDateString()}</p> */}
                                     <p>Date & Time : {new Date(data.createAt).toLocaleString()}</p>
                                 </div>
-                            </div>
+                            </Link>
 
                         );
                     })}

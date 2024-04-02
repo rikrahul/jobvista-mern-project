@@ -40,19 +40,6 @@ async function run() {
     const userSignupCollection = db.collection("user_signup");
     const jobApplcationCollection = db.collection("jobApplication");
 
-    //get all jobApplication data
-    app.get("/all-jobApplication", async (req, res) => {
-      const jobApplication = await jobApplcationCollection.find({}).toArray()
-      res.send(jobApplication);
-    })
-
-    //get application by email
-    app.get("/all-jobApplication/:userEmail", async (req, res) => {
-      // console.log(req.params.userEmail)
-      const jobApplication = await jobApplcationCollection.find({ email: req.params.userEmail }).toArray();
-      res.send(jobApplication)
-    })
-
     //job apply
     app.post("/job-applications/:id", async (req, res) => {
       const body = req.body;
@@ -69,6 +56,36 @@ async function run() {
         })
       }
     })
+
+    //get all jobApplication data
+    app.get("/all-jobApplication", async (req, res) => {
+      const jobApplication = await jobApplcationCollection.find({}).toArray()
+      res.send(jobApplication);
+    })
+
+    // get single application using id
+    app.get("/all-jobApplication/:id", async (req, res) => {
+      const id = req.params.id;
+      const jobApplication = await jobApplcationCollection.findOne({
+        _id: new ObjectId(id)
+      })
+      res.send(jobApplication)
+    })
+
+    //get application by email
+    //get application by email
+app.get("/all-jobApplicationByEmail/:userEmail", async (req, res) => {
+  const jobApplication = await jobApplcationCollection.find({ email: req.params.userEmail }).toArray();
+  res.send(jobApplication)
+})
+
+    // app.get("/all-jobApplication/:userEmail", async (req, res) => {
+    //   // console.log(req.params.userEmail)
+    //   const jobApplication = await jobApplcationCollection.find({ email: req.params.userEmail }).toArray();
+    //   res.send(jobApplication)
+    // })
+
+
 
     //delete application
     app.delete('/all-jobApplication/:id', async (req, res) => {
@@ -211,11 +228,30 @@ async function run() {
     // get single job using id
     app.get("/all-jobs/:id", async (req, res) => {
       const id = req.params.id;
+      if (!ObjectId.isValid(id)) {
+        return res.status(400).send({ message: 'Invalid job ID.' });
+      }
+
       const job = await jobsCollections.findOne({
         _id: new ObjectId(id)
-      })
-      res.send(job)
+      });
+
+      if (!job) {
+        return res.status(404).send({ message: 'Job not found.' });
+      }
+
+      res.send(job);
     })
+
+
+    // get single job using id
+    // app.get("/all-jobs/:id", async (req, res) => {
+    //   const id = req.params.id;
+    //   const job = await jobsCollections.findOne({
+    //     _id: new ObjectId(id)
+    //   })
+    //   res.send(job)
+    // })
 
     //get jobs by email
     app.get("/myJobs/:email", async (req, res) => {

@@ -13,28 +13,28 @@ const MyApplications = () => {
         // Retrieve user's email from local storage
         const storedEmail = localStorage.getItem('userEmail');
         setUserEmail(storedEmail || ''); // Set to empty string if storedEmail is null or undefined
-
+    
         // Fetch application data
-        fetch(`http://localhost:3000/all-jobApplication/${userEmail}`)
+        fetch(`http://localhost:3000/all-jobApplicationByEmail/${userEmail}`)
             .then(res => res.json())
             .then(data => {
                 setApplications(data);
+                // Fetch job data
+                fetch("http://localhost:3000/all-jobs")
+                    .then(res => res.json())
+                    .then(data => {
+                        setJobs(data);
+                        setIsLoading(false);
+                    })
+                    .catch(error => {
+                        console.error('Error fetching job data:', error);
+                    });
             })
             .catch(error => {
                 console.error('Error fetching application data:', error);
             });
-
-        // Fetch job data
-        fetch("http://localhost:3000/all-jobs")
-            .then(res => res.json())
-            .then(data => {
-                setJobs(data);
-                setIsLoading(false);
-            })
-            .catch(error => {
-                console.error('Error fetching job data:', error);
-            });
     }, [userEmail]);
+    
 
     const handleMenuToggler = () => {
         setIsMenuOpen(!isMenuOpen);
@@ -156,7 +156,7 @@ const MyApplications = () => {
                         // Find the corresponding job details
                         const jobDetails = jobs.find(job => job._id === data.jobId);
                         return (
-                            <div className='my-4 px-5 py-8 border-2 border-gray-200 rounded-md flex gap-10 flex-col sm:flex-row items-start text-gray-700' key={data._id}>
+                            <Link to={`/application-details/${data._id}`} className='my-4 px-5 py-8 border-2 border-gray-200 rounded-md flex gap-10 flex-col sm:flex-row items-start text-gray-700' key={data._id}>
                                 <div>
                                     {jobDetails && (
                                         <div>
@@ -179,7 +179,7 @@ const MyApplications = () => {
                                     <Link className="mx-5 bg-blue px-4 py-2 text-white rounded-md">Edit</Link> {/* Added margin-right for spacing */}
                                     <button onClick={() => handleDelete(data._id)} className="mx-5 bg-red-600 px-4 py-2 text-white rounded-md">Delete</button>
                                 </div>
-                            </div>
+                            </Link>
 
                         );
                     })}

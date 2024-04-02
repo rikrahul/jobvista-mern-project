@@ -17,6 +17,7 @@ import Userjobdetails from "../userPages/Userjobdetails";
 import JobApply from "../userPages/JobApply";
 import MyApplications from "../userPages/MyApplications";
 import JobApplicants from "../Pages/JobApplicants";
+import ApplicantDetails from "../Pages/ApplicantDetails";
 
 const router = createBrowserRouter([
   {
@@ -83,6 +84,11 @@ const router = createBrowserRouter([
     path: "/my-applications",
     element: <MyApplications />
   },
+  {
+    path: "/application-details/:id",
+    element: <ApplicantDetails/>
+
+  }
 
 ]);
 

@@ -23,6 +23,7 @@ const JobApply = () => {
     // Add jobId to the form data
     data.jobId = id;
     data.email = userEmail;
+    data.status = "on review"
 
     fetch(`http://localhost:3000/job-applications/${id}`, {
       method: "POST",
@@ -35,6 +36,7 @@ const JobApply = () => {
         if (result.acknowledged === true) {
           alert("Job Applied Successfully!!!")
           reset(); // Reset form fields after successful submission
+          setResumeImage(null);
         }
       })
       .catch(error => {

@@ -72,7 +72,7 @@ async function run() {
       res.send(jobApplication)
     })
 
-    //get application by email
+
     //get application by email
 app.get("/all-jobApplicationByEmail/:userEmail", async (req, res) => {
   const jobApplication = await jobApplcationCollection.find({ email: req.params.userEmail }).toArray();
@@ -94,6 +94,24 @@ app.get("/all-jobApplicationByEmail/:userEmail", async (req, res) => {
       const result = await jobApplcationCollection.deleteOne(filter);
       res.send(result)
     })
+
+    // update a jobs
+    app.patch("/update-application/:id", async (req, res) => {
+      const id = req.params.id;
+      const applicationData = req.body;
+      const filter = { _id: new ObjectId(id) };
+      const options = { upsert: true };
+      const updateDoc = {
+        $set: {
+          ...applicationData
+        },
+      };
+
+      const result = await jobApplcationCollection.updateOne(filter, updateDoc, options);
+      res.send(result)
+    })
+
+
 
     //login
     // Login endpoint

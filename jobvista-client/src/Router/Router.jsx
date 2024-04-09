@@ -18,6 +18,7 @@ import JobApply from "../userPages/JobApply";
 import MyApplications from "../userPages/MyApplications";
 import JobApplicants from "../Pages/JobApplicants";
 import ApplicantDetails from "../Pages/ApplicantDetails";
+import UpdateApplication from "../userPages/UpdateApplication";
 
 const router = createBrowserRouter([
   {
@@ -87,7 +88,11 @@ const router = createBrowserRouter([
   {
     path: "/application-details/:id",
     element: <ApplicantDetails/>
-
+  },
+  {
+    path: "edit-application/:id",
+    element: <UpdateApplication/>,
+    loader: ({ params }) => fetch(`http://localhost:3000/all-jobApplication/${params.id}`)
   }
 
 ]);

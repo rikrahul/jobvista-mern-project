@@ -9,11 +9,13 @@ const WorkExperience = ({handleChange}) => {
     <div>
         <label className='sidebar-label-container'>
             <input type="radio" name="test" id="test" value="" onChange={handleChange} />
-            <span className='checkmark'></span>Any experience
+            <span className='checkmark'></span>No Experience
         </label>
 
-        <InputField handleChange={handleChange} value="Internship" title="Internship" name="test"/>
-        <InputField handleChange={handleChange} value="Work remotely" title="Work remotely" name="test"/>
+        <InputField handleChange={handleChange} value="less than 1yr" title="less than 1yr" name="test"/>
+        <InputField handleChange={handleChange} value="1yr-2yr" title="1yr-2yr" name="test"/>
+        <InputField handleChange={handleChange} value="2yr-5yr" title="2yr-5yr" name="test"/>
+        <InputField handleChange={handleChange} value="more than 5yr" title="more than 5yr" name="test"/>
 
     </div>
 </div>

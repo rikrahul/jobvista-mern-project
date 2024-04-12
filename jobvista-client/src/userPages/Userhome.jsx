@@ -7,6 +7,7 @@ import Sidebar from "../sidebar/Sidebar";
 import Newsletter from "../components/Newsletter";
 import Ucard from '../components/Ucard';
 
+
 const Userhome = () => {
     const [selectedCategory, setSelectedCategory] = useState(null);
     const [jobs, setJobs] = useState([]);
@@ -14,6 +15,7 @@ const Userhome = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 6;
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const [locationQuery, setLocationQuery] = useState('');
 
     useEffect(() => {
         setIsLoading(true);
@@ -66,36 +68,43 @@ const Userhome = () => {
 
 
     // main function
-    const filteredData = (jobs, selected, query) => {
+    const filteredData = (jobs, selected, query, locationQuery) => {
         let filteredJobs = jobs;
-
-        //filtering input items
+    
+        // Filtering input items
         if (query) {
-            filteredJobs = filteredItems;
+          filteredJobs = filteredJobs.filter((job) => job.jobTitle.toLowerCase().indexOf(query.toLowerCase()) !== -1);
         }
-
-        // category filtering
+    
+        // Category filtering
         if (selected) {
-            // Convert selected date string to Date object
-            const selectedDate = new Date(selected);
-            filteredJobs = filteredJobs.filter(({ jobLocation, maxPrice, experienceLevel, salaryType, employmentType, postingDate }) =>
-                jobLocation.toLowerCase() === selected.toLowerCase() ||
-                parseInt(maxPrice) <= parseInt(selected) ||
-                experienceLevel.toLowerCase() === selected.toLowerCase() ||
-                salaryType.toLowerCase() === selected.toLowerCase() ||
-                employmentType.toLowerCase() === selected.toLowerCase() ||
-                new Date(postingDate) >= selectedDate // Convert postingDate to Date object for comparison
-            );
-            console.log(filteredJobs);
+          const selectedDate = new Date(selected);
+          filteredJobs = filteredJobs.filter(({ jobLocation, maxPrice, experienceLevel, salaryType, employmentType, postingDate }) =>
+            jobLocation.toLowerCase() === selected.toLowerCase() ||
+            parseInt(maxPrice) <= parseInt(selected) ||
+            experienceLevel.toLowerCase() === selected.toLowerCase() ||
+            salaryType.toLowerCase() === selected.toLowerCase() ||
+            employmentType.toLowerCase() === selected.toLowerCase() ||
+            new Date(postingDate) >= selectedDate
+          );
         }
-
-        // slice the data based on current page
+    
+        // Location filtering
+        if (locationQuery) {
+          filteredJobs = filteredJobs.filter((job) => job.jobLocation.toLowerCase().indexOf(locationQuery.toLowerCase()) !== -1);
+        }
+    
+        // Slice the data based on current page
         const { startIndex, endIndex } = calculatePageRange();
-        filteredJobs = filteredJobs.slice(startIndex, endIndex)
-        return filteredJobs.map((data, i) => <Ucard key={i} data={data} />)
-
-    }
-    const result = filteredData(jobs, selectedCategory, query);
+        filteredJobs = filteredJobs.slice(startIndex, endIndex);
+        return filteredJobs.map((data, i) => <Ucard key={i} data={data} />);
+      };
+    
+      const result = filteredData(jobs, selectedCategory, query, locationQuery);
+    
+      const handleLocationChange = (location) => {
+        setLocationQuery(location);
+      };
 
 
     const handleMenuToggler = () => {
@@ -180,7 +189,7 @@ const Userhome = () => {
                 </div>
             </header>
 
-            <Banner query={query} handleInputChange={handleInputChange} />
+            <Banner query={query} handleInputChange={handleInputChange} handleLocationChange={handleLocationChange} />
 
             {/* main content */}
             <div className="bg-[#FAFAFA] md:grid grid-cols-4 gap-8 lg:px-24 px-4 py-12">

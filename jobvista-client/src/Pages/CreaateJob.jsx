@@ -99,9 +99,11 @@ const CreaateJob = () => {
                             <label className="block mb-2 text-lg">Experience Level</label>
                             <select {...register("experienceLevel")} className="create-job-input">
                                 <option value="">Select your Experience Level</option>
-                                <option value="NoExperience">NoExperience</option>
-                                <option value="Internship">Internship</option>
-                                <option value="Work remotely">Work remotely</option>
+                                <option value="No Experience">No Experience</option>
+                                <option value="less than 1yr">less than 1yr</option>
+                                <option value="1yr-2yr">1yr-2yr</option>
+                                <option value="2yr-5yr">2yr-5yr</option>
+                                <option value="more than 5yr">more than 5yr</option>
                             </select>
                         </div>
 

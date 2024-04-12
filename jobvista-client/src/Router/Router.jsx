@@ -19,6 +19,7 @@ import MyApplications from "../userPages/MyApplications";
 import JobApplicants from "../Pages/JobApplicants";
 import ApplicantDetails from "../Pages/ApplicantDetails";
 import UpdateApplication from "../userPages/UpdateApplication";
+import RecruiterHome from "../recruiterPages/RecruiterHome";
 
 const router = createBrowserRouter([
   {
@@ -36,6 +37,10 @@ const router = createBrowserRouter([
       {
         path: "/user-home",
         element: <Userhome />
+      },
+      {
+        path: "/recruiter-home",
+        element: <RecruiterHome />
       },
       {
         path: "/home",

@@ -71,6 +71,10 @@ const Login = () => {
                     localStorage.setItem('userEmail', loginData.email);
                     window.location.href = `/user-home`;
                 }
+                else if (loginData.userType.trim() === 'recruiter') {
+                    localStorage.setItem('userEmail', loginData.email);
+                    window.location.href = `/recruiter-home`;
+                }
 
 
             } catch (error) {

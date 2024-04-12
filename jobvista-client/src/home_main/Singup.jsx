@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import Swal from 'sweetalert2'
+import 'animate.css';
 
 const Singup = () => {
     const [formData, setFormData] = useState({
@@ -54,7 +56,24 @@ const Singup = () => {
             }).then(res => res.json()).then((result) => {
                 console.log(result)
                 if (result.acknowledged === true) {
-                    alert("Signup Successfully!!!")
+                    // alert("Signup Successfully!!!")
+                    Swal.fire({
+                        title: "Signup Successful !!",
+                        showClass: {
+                            popup: `
+                                animate__animated
+                                animate__fadeInUp
+                                animate__faster
+                            `
+                        },
+                        hideClass: {
+                            popup: `
+                                animate__animated
+                                animate__fadeOutDown
+                                animate__faster
+                            `
+                        }
+                    });
                 }
             })
     

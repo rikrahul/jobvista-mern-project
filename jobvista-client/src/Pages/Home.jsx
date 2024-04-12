@@ -11,7 +11,6 @@ export const Home = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 6;
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [locationQuery, setLocationQuery] = useState('');
 
   useEffect(() => {

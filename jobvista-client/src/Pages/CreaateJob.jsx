@@ -1,25 +1,42 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form"
 import CreatableSelect from 'react-select/creatable';
+import { Bounce ,ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 const CreaateJob = () => {
     const [selectedOption, setSelectedOption] = useState(null);
     const {
         register,
-        handleSubmit,reset,
+        handleSubmit, reset,
         formState: { errors },
     } = useForm()
 
     const onSubmit = (data) => {
         data.skills = selectedOption;
         // console.log(data);
-        fetch("http://localhost:3000/post-job",{
+        fetch("http://localhost:3000/post-job", {
             method: "POST",
-            headers: {'content-type': 'application/json'},
+            headers: { 'content-type': 'application/json' },
             body: JSON.stringify(data)
         }).then(res => res.json()).then((result) => {
             console.log(result)
-            if(result.acknowledged === true){
-                alert("Job Posted Successfully!!!")
+            if (result.acknowledged === true) {
+                toast("Job Posted Successfully!!!", {
+                    position: "top-center",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    transition: Bounce,
+                    style: {
+                        backgroundColor: 'green',
+                        color: 'white',
+                    },
+                });
+                
             }
             reset()
         })
@@ -158,7 +175,19 @@ const CreaateJob = () => {
 
                     <input type="submit" className="block mt-12 bg-blue text-white font-semibold px-8 py-2 rounded-sm cursor-pointer" />
                 </form>
-
+                <ToastContainer
+                    position="top-center"
+                    autoClose={5000}
+                    hideProgressBar={false}
+                    newestOnTop={false}
+                    closeOnClick
+                    rtl={false}
+                    pauseOnFocusLoss
+                    draggable
+                    pauseOnHover
+                    theme="colored"
+                    transition="Bounce"
+/>
             </div>
         </div>
     )

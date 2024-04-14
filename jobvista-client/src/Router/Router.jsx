@@ -20,6 +20,10 @@ import JobApplicants from "../Pages/JobApplicants";
 import ApplicantDetails from "../Pages/ApplicantDetails";
 import UpdateApplication from "../userPages/UpdateApplication";
 import RecruiterHome from "../recruiterPages/RecruiterHome";
+import RmyJobs from "../recruiterPages/RmyJobs";
+import RUpdateJob from "../recruiterPages/RUpdateJob";
+import RCreateJob from "../recruiterPages/RCreateJob";
+import RJobApplicants from "../recruiterPages/RJobApplicants";
 
 const router = createBrowserRouter([
   {
@@ -57,6 +61,10 @@ const router = createBrowserRouter([
       {
         path: "/job-applicants",
         element: <JobApplicants/>
+      },
+      {
+        path: "/dashboard",
+        element: <About/>
       },
       {
         path: "/salary",
@@ -98,6 +106,23 @@ const router = createBrowserRouter([
     path: "edit-application/:id",
     element: <UpdateApplication/>,
     loader: ({ params }) => fetch(`http://localhost:3000/all-jobApplication/${params.id}`)
+  },
+  {
+    path: "rmy-jobs",
+    element: <RmyJobs/>
+  },
+  {
+    path: "redit-job/:id",
+    element: <RUpdateJob />,
+    loader: ({ params }) => fetch(`http://localhost:3000/all-jobs/${params.id}`)
+  },
+  {
+    path: "/rpost-job",
+    element: <RCreateJob />
+  },
+  {
+    path: "/rjob-applicants",
+    element: <RJobApplicants/>
   }
 
 ]);

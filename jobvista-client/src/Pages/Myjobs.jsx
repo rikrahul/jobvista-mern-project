@@ -214,9 +214,7 @@ const Myjobs = () => {
       </div>
 
       </section>
-      <div className='w-full xl:w'>
 
-      </div>
     </div>
   )
 }

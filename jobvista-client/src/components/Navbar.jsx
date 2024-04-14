@@ -14,7 +14,8 @@ const Navbar = () => {
         {path: "/home", title: "Search"},
         {path: "/my-job", title: "My Jobs"},
         {path: "/post-job", title: "Post Job"},
-        {path: "/job-applicants", title: "Job Applicants"}
+        {path: "/job-applicants", title: "Job Applicants"},
+        {path: "/dashboard", title: "Dashboard"}
     ]
     const handleLogout = () => {
       Swal.fire({

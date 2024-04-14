@@ -218,6 +218,14 @@ app.get("/all-jobApplicationByEmail/:userEmail", async (req, res) => {
     });
 
 
+    app.delete('/all-usersignup/:id', async (req, res) => {
+      const id = req.params.id;
+      const filter = { _id: new ObjectId(id) }
+      const result = await userSignupCollection.deleteOne(filter);
+      res.send(result)
+    })
+
+
 
 
     // post jobs

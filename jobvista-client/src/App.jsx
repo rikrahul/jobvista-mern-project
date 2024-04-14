@@ -11,6 +11,7 @@ function App() {
     '/post-job',
     '/my-job',
     '/job-applicants',
+    '/dashboard',
     '/edit-job', // Add edit-job/:id route
     '/job'       // Add /job/:id route
   ];

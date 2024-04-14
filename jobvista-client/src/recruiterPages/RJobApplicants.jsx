@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import RNavbar from './RNavbar';
 
-const JobApplicants = () => {
+const RJobApplicants = () => {
     const [application, setApplications] = useState([]);
     const [jobs, setJobs] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
@@ -84,8 +85,9 @@ const JobApplicants = () => {
             return jobA.jobTitle.localeCompare(jobB.jobTitle);
         });
     }
-
-    return (
+  return (
+    <div>
+        <RNavbar/>
         <div className='max-w-screen-2xl container mx-auto xl:px-24 px-4'>
             <div className='max-w-screen-2xl container mx-auto xl:px-24 px-4'>
                 <div className='font-bold text-lg text-center'>
@@ -164,7 +166,8 @@ const JobApplicants = () => {
                 </div>
             </div>
         </div>
-    );
-};
+    </div>
+  )
+}
 
-export default JobApplicants;
+export default RJobApplicants

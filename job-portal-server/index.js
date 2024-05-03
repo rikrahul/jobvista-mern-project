@@ -1,15 +1,11 @@
-const express = require('express')
-const app = express()
-const cors = require('cors')
-const jwt = require('jsonwebtoken');
-const bcrypt = require('bcrypt');
-const port = process.env.PORT || 3000;
-require('dotenv').config()
+const express = require('express');
+const app = express();
+const cors = require('cors');
+const XLSX = require('xlsx');
+require('dotenv').config();
 
-
-//middleware
-app.use(express.json())
-app.use(cors())
+app.use(express.json());
+app.use(cors());
 
 //user: rahulrikhari2001
 //pass: z3vZXyufloP9sPcO
@@ -39,6 +35,48 @@ async function run() {
     //create usersignup collection
     const userSignupCollection = db.collection("user_signup");
     const jobApplcationCollection = db.collection("jobApplication");
+
+    // Define backupCollections function
+    async function backupCollections() {
+      try {
+        // Fetch data from collections concurrently
+        const [jobsData, userSignupData, jobApplicationData] = await Promise.all([
+          jobsCollection.find({}).toArray(),
+          userSignupCollection.find({}).toArray(),
+          jobApplicationCollection.find({}).toArray()
+        ]);
+
+        // Convert data to Excel format
+        const wb = XLSX.utils.book_new();
+        const jobsSheet = XLSX.utils.json_to_sheet(jobsData);
+        const userSignupSheet = XLSX.utils.json_to_sheet(userSignupData);
+        const jobApplicationSheet = XLSX.utils.json_to_sheet(jobApplicationData);
+
+        XLSX.utils.book_append_sheet(wb, jobsSheet, "Jobs");
+        XLSX.utils.book_append_sheet(wb, userSignupSheet, "User Signup");
+        XLSX.utils.book_append_sheet(wb, jobApplicationSheet, "Job Applications");
+
+        // Save Excel file
+        const filePath = './backup.xlsx';
+        XLSX.writeFile(wb, filePath);
+        console.log("Backup completed successfully.");
+      } catch (error) {
+        console.error("Error during backup:", error);
+      }
+    }
+
+    // Define backup route
+    app.get('/backup', async (req, res) => {
+      try {
+        await backupCollections();
+        const filePath = './backup.xlsx';
+        res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        res.download(filePath); // Send the file as response for download
+      } catch (error) {
+        console.error("Error during backup:", error);
+        res.status(500).send('Error during backup');
+      }
+    });
 
     //job apply
     app.post("/job-applications/:id", async (req, res) => {
@@ -74,10 +112,10 @@ async function run() {
 
 
     //get application by email
-app.get("/all-jobApplicationByEmail/:userEmail", async (req, res) => {
-  const jobApplication = await jobApplcationCollection.find({ email: req.params.userEmail }).toArray();
-  res.send(jobApplication)
-})
+    app.get("/all-jobApplicationByEmail/:userEmail", async (req, res) => {
+      const jobApplication = await jobApplcationCollection.find({ email: req.params.userEmail }).toArray();
+      res.send(jobApplication)
+    })
 
     //delete application
     app.delete('/all-jobApplication/:id', async (req, res) => {
@@ -288,12 +326,10 @@ app.get("/all-jobApplicationByEmail/:userEmail", async (req, res) => {
 }
 run().catch(console.dir);
 
-
-
 app.get('/', (req, res) => {
   res.send('Hello Rahul!')
 })
-
+const port = process.env.PORT || 3000;
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
 })

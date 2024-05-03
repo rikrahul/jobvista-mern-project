@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Users from '../components/Users';
 import Analytics from '../components/Analytics';
+import Backup from '../components/Backup';
 
 const About = () => {
   const [selectedMenuItem, setSelectedMenuItem] = useState('Users');
@@ -15,8 +16,8 @@ const About = () => {
         return <Users />;
       case 'Analytics':
         return <Analytics/>;
-      case 'Home':
-        return <div>Home Component</div>;
+      case 'Backup':
+        return <Backup/>;
       default:
         return null;
     }
@@ -30,6 +31,7 @@ const About = () => {
         <ul className=''>
           <li className={`cursor-pointer text-white p-2 my-1 border-2 rounded-md ${selectedMenuItem === 'Users' && 'bg-blue'}`} onClick={() => handleMenuItemClick('Users')}>Users</li>
           <li className={`cursor-pointer text-white p-2 my-1 border-2 rounded-md ${selectedMenuItem === 'Analytics' && 'bg-blue'}`} onClick={() => handleMenuItemClick('Analytics')}>Analytics</li>
+          <li className={`cursor-pointer text-white p-2 my-1 border-2 rounded-md ${selectedMenuItem === 'Backup' && 'bg-blue'}`} onClick={() => handleMenuItemClick('Backup')}>Backup</li>
           {/*<li className={`cursor-pointer p-2 border-2 ${selectedMenuItem === 'Home' && 'bg-blue-100'}`} onClick={() => handleMenuItemClick('Home')}>Home</li> */}
         </ul>
       </div>

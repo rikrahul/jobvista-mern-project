@@ -1,20 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { IoSearch, IoFilterSharp } from "react-icons/io5";
+import * as XLSX from 'xlsx';
 
 const Users = () => {
     const [users, setUsers] = useState([]);
     const [filteredUsers, setFilteredUsers] = useState([]);
-    const [userRoleFilter, setUserRoleFilter] = useState(''); // State to store the selected user role filter
-    const [searchQuery, setSearchQuery] = useState(''); // State to store the search query
+    const [userRoleFilter, setUserRoleFilter] = useState('');
+    const [searchQuery, setSearchQuery] = useState('');
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
-        // Fetch user data
         fetch(`http://localhost:3000/all-usersignup`)
             .then(res => res.json())
             .then(data => {
                 setUsers(data);
-                setFilteredUsers(data); // Initialize filtered users with all users
+                setFilteredUsers(data);
                 setIsLoading(false);
             })
             .catch(error => {
@@ -22,18 +22,16 @@ const Users = () => {
             });
     }, []);
 
-    // Function to filter users based on user role
     const filterUsersByRole = (role) => {
         setUserRoleFilter(role);
         if (role === '') {
-            setFilteredUsers(users); // If no role is selected, show all users
+            setFilteredUsers(users);
         } else {
             const filtered = users.filter(user => user.userType === role);
             setFilteredUsers(filtered);
         }
     };
 
-    // Function to filter users based on search query
     const filterUsersByName = (query) => {
         setSearchQuery(query);
         const filtered = users.filter(user =>
@@ -41,6 +39,7 @@ const Users = () => {
         );
         setFilteredUsers(filtered);
     };
+
     const handleDelete = (id) => {
         fetch(`http://localhost:3000/all-usersignup/${id}`, {
             method: "DELETE",
@@ -53,7 +52,6 @@ const Users = () => {
         })
         .then(data => {
             if (data.acknowledged === true) {
-                // Filter out the deleted user from both users and filteredUsers arrays
                 const updatedUsers = users.filter(user => user._id !== id);
                 setUsers(updatedUsers);
                 setFilteredUsers(updatedUsers);
@@ -67,13 +65,36 @@ const Users = () => {
             alert("An error occurred while deleting the user. Please try again later.");
         });
     }
-    
+
+    const handleExportToExcel = () => {
+        const fileType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
+        const fileExtension = '.xlsx';
+        const fileName = 'users_data';
+
+        const exportedData = users.map(({ fullName, email, userType, _id }, index) => ({
+            '#': index + 1,
+            'Name': fullName,
+            'Email': email,
+            'User-Role': userType,
+            'Id': _id
+        }));
+
+        const ws = XLSX.utils.json_to_sheet(exportedData);
+        const wb = { Sheets: { 'data': ws }, SheetNames: ['data'] };
+        const excelBuffer = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
+
+        const data = new Blob([excelBuffer], { type: fileType });
+        const url = URL.createObjectURL(data);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = fileName + fileExtension;
+        link.click();
+    };
 
     return (
         <div className="px-5 py-3 ">
             <h2 className="text-2xl font-bold mb-4">Total Users : {users.length}</h2>
             <div className="flex items-center mb-4">
-                {/* Search input field with search icon */}
                 <div className="relative flex items-center">
                     <input
                         type="text"
@@ -82,9 +103,8 @@ const Users = () => {
                         value={searchQuery}
                         onChange={(e) => filterUsersByName(e.target.value)}
                     />
-                    <IoSearch className="h-6 w-6 text-gray-400 absolute left-3 top-2.5" /> {/* Search icon */}
+                    <IoSearch className="h-6 w-6 text-gray-400 absolute left-3 top-2.5" />
                 </div>
-                {/* Dropdown menu to select user role */}
                 <select
                     className="px-4 py-2 border border-gray-300 rounded-md ml-3"
                     value={userRoleFilter}
@@ -94,9 +114,9 @@ const Users = () => {
                     <option value="admin">Admin</option>
                     <option value="recruiter">Recruiter</option>
                     <option value="user">User</option>
-                    {/* Add more options as needed */}
                 </select>
             </div>
+            <button onClick={handleExportToExcel} className="bg-blue-500 text-white bg-blue px-4 py-2 rounded-md mb-4">Export to Excel</button>
             <section className="py-1 bg-blueGray-50">
                 <div className="w-full xl:w-full mb-12 xl:mb-0 px-4 mx-auto mt-5">
                     <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-xl rounded">
@@ -107,7 +127,6 @@ const Users = () => {
                                 </div>
                             </div>
                         </div>
-
                         <div className="block w-full overflow-x-auto">
                             <table className="items-center bg-transparent w-full border-collapse">
                                 <thead>
@@ -168,10 +187,6 @@ const Users = () => {
                 </div>
             </section>
         </div>
-
-
-
-
     );
 };
 

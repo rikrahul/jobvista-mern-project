@@ -2,11 +2,14 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import PageHeader from '../components/PageHeader';
 import { LiaRupeeSignSolid } from 'react-icons/lia';
+import PDFReport from '../components/PDFReport';
+import { PDFDownloadLink } from '@react-pdf/renderer';
 
 const ApplicantDetails = () => {
     const { id } = useParams();
     const [application, setApplications] = useState({});
     const [job, setJobs] = useState({});
+    const [pdfData, setPdfData] = useState(null);
 
     useEffect(() => {
         // Fetching applicant data
@@ -22,6 +25,15 @@ const ApplicantDetails = () => {
             })
             .catch(error => console.error('Error fetching application data:', error));
     }, [id]); // Add 'id' to the dependency array
+
+    useEffect(() => {
+        if (application && job) {
+            setPdfData({
+                ...application,
+                ...job
+            });
+        }
+    }, [application, job]);
 
     return (
         <div className='max-w-screen-2xl container mx-auto xl:px-24'>
@@ -63,7 +75,7 @@ const ApplicantDetails = () => {
                         </div>
                     </div>
                 </div>
-                <div >
+                <div>
                     <h2 className='text-2xl font-bold text-center rounded-md py-2 bg-blue text-white '>Applicant Details</h2>
                     <div className='create-job-flex pt-4'>
                         <div className="lg:w-1/2 w-full">
@@ -100,6 +112,11 @@ const ApplicantDetails = () => {
                 <div className='w-full mt-8'>
                     <h2 className='text-2xl font-bold mb-4'>Resume</h2>
                     <img src={application.resume} alt="Applicant Resume" className="w-full max-w-md mb-4 border-2 border-gray-700" />
+                    {pdfData && (
+                        <PDFDownloadLink document={<PDFReport data={pdfData} />} fileName="report.pdf">
+                            {({ blob, url, loading, error }) => (loading ? 'Loading document...' : 'Download PDF')}
+                        </PDFDownloadLink>
+                    )}
                 </div>
             </div>
         </div>

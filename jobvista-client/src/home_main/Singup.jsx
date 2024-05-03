@@ -42,8 +42,7 @@ const Singup = () => {
         }
     
         if (Object.keys(newErrors).length === 0) {
-            // If there are no errors, you can submit the form
-            // Omit confirmPassword field from form data if passwords match
+
             const formDataToSend = { ...formData };
             if (formData.password === formData.confirmPassword) {
                 delete formDataToSend.confirmPassword;

@@ -79,14 +79,6 @@ app.get("/all-jobApplicationByEmail/:userEmail", async (req, res) => {
   res.send(jobApplication)
 })
 
-    // app.get("/all-jobApplication/:userEmail", async (req, res) => {
-    //   // console.log(req.params.userEmail)
-    //   const jobApplication = await jobApplcationCollection.find({ email: req.params.userEmail }).toArray();
-    //   res.send(jobApplication)
-    // })
-
-
-
     //delete application
     app.delete('/all-jobApplication/:id', async (req, res) => {
       const id = req.params.id;
@@ -110,8 +102,6 @@ app.get("/all-jobApplicationByEmail/:userEmail", async (req, res) => {
       const result = await jobApplcationCollection.updateOne(filter, updateDoc, options);
       res.send(result)
     })
-
-
 
     //login
     // Login endpoint
@@ -164,17 +154,6 @@ app.get("/all-jobApplicationByEmail/:userEmail", async (req, res) => {
           }
         });
 
-        // return res.status(200).send({
-        //   message: "Login successful.",
-        //   status: true,
-        //   user: {
-        //     id: user._id,
-        //     name: user.name,
-        //     email: user.email,
-        //     userType: user.userType
-        //     // Add any other user data you want to send back
-        //   }
-        // });
       } catch (error) {
         console.error("Error during login:", error);
         return res.status(500).send({
@@ -226,8 +205,6 @@ app.get("/all-jobApplicationByEmail/:userEmail", async (req, res) => {
     })
 
 
-
-
     // post jobs
     app.post("/post-job", async (req, res) => {
       const body = req.body;
@@ -269,15 +246,6 @@ app.get("/all-jobApplicationByEmail/:userEmail", async (req, res) => {
       res.send(job);
     })
 
-
-    // get single job using id
-    // app.get("/all-jobs/:id", async (req, res) => {
-    //   const id = req.params.id;
-    //   const job = await jobsCollections.findOne({
-    //     _id: new ObjectId(id)
-    //   })
-    //   res.send(job)
-    // })
 
     //get jobs by email
     app.get("/myJobs/:email", async (req, res) => {

@@ -22,8 +22,6 @@ const Homepage = () => {
                     </svg><span>JobVista</span>
                 </a>
                 <div className='text-base text-primary font-medium space-x-5 hidden lg:block'>
-                    {/* <button onClick={handleLoginClick} className='py-2 px-5 border rounded'>Log in</button>
-                    <button onClick={handleSignupClick} className='py-2 px-5 border rounded bg-blue text-white'>Sign up</button> */}
 
                     <Link to="/login" className='py-2 px-5 border rounded'>Log in</Link>
                     <Link to="/sign-up" className='py-2 px-5 border rounded bg-blue text-white'>Sign up</Link>

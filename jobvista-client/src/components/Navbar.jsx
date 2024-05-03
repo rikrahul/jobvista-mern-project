@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link, NavLink } from 'react-router-dom';
 import {FaBarsStaggered, FaXmark} from "react-icons/fa6";
 import Swal from 'sweetalert2'
@@ -6,9 +6,14 @@ import 'animate.css';
 
 const Navbar = () => {
     const [isMenuOpen, setIsMenuOpen]= useState(false)
+    const [storedEmail, setStoredEmail] = useState(null);
     const handleMenuToggler = () =>{
         setIsMenuOpen(!isMenuOpen);
     };
+    useEffect(() => {
+      const email = localStorage.getItem('userEmail');
+      setStoredEmail(email); // Set storedEmail state with the retrieved email
+  }, []);
 
     const navItems =[
         {path: "/home", title: "Search"},
@@ -68,13 +73,11 @@ const Navbar = () => {
                 }
             </ul>
 
-            {/*signup and login button*/}
-            <div className='text-base text-primary font-medium space-x-5 hidden lg:block'>
-                {/* <Link to="/login" className='py-2 px-5 border rounded'>Log in</Link> */}
-                {/* <div className='bg-[#fafafa] py-2 px-5  border rounded-lg'>Admin</div> */}
-                <Link to="/" className='py-2 px-5 border rounded bg-blue text-white' onClick={handleLogout}>Log Out</Link>            
-                </div>
-
+{/*signup and login button*/}
+<div className='text-base text-primary font-medium space-x-5 hidden lg:block'>
+    <span className="text-gray-500">{storedEmail ? `Admin Panel - ${storedEmail}` : "Admin Panel"}</span>
+    <Link to="/" className='py-2 px-5 border rounded bg-blue text-white' onClick={handleLogout}>Log Out</Link>            
+</div>
 
             {/*mobile menu */}
             <div className='md:hidden block'>

@@ -113,7 +113,7 @@ const Singup = () => {
             <label htmlFor="userType" className="block mb-1">User Type</label>
             <select id="userType" name="userType" value={formData.userType} onChange={handleChange} className="border border-gray-300 rounded-md px-3 py-2 w-full">
                 <option value="">Select User Type</option>
-                <option value="admin">Admin</option>
+                {/*<option value="admin">Admin</option> */}
                 <option value="recruiter">Recruiter</option>
                 <option value="user">User</option>
             </select>

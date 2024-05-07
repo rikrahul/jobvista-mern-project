@@ -1,23 +1,22 @@
-import React from 'react'
-import Location from './Location'
-import Salary from './Salary'
-import JobPostingData from './JobPostingData'
-import WorkExperience from './WorkExperience'
-import Employement from './Employement'
+import React from 'react';
+import Location from './Location';
+import Salary from './Salary';
+import JobPostingData from './JobPostingData';
+import WorkExperience from './WorkExperience';
+import Employement from './Employement';
 
-const Sidebar = ({handleChange, handleClick}) => {
+const Sidebar = ({ handleChange, handleClick }) => {
   return (
     <div className='space-y-5'>
         <h3 className='text-lg font-bold mb-2'>Filters</h3>
 
-        <Location handleChange={handleChange}/>
-        <Salary handleChange={handleChange} handleClick={handleClick}/>
-        <JobPostingData handleChange={handleChange}/>
-        <WorkExperience handleChange={handleChange}/>
-        <Employement handleChange={handleChange}/>
-
+        <Location handleChange={handleChange} />
+        <Salary handleChange={handleChange} handleClick={handleClick} />
+        <JobPostingData handleChange={handleChange} /> {/* Pass handleDateChange */}
+        <WorkExperience handleChange={handleChange} />
+        <Employement handleChange={handleChange} />
     </div>
-  )
+  );
 }
 
-export default Sidebar
+export default Sidebar;

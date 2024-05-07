@@ -64,38 +64,42 @@ export const Home = () => {
   }
 
 
-  // main function
-  const filteredData = (jobs, selected, query, locationQuery) => {
-    let filteredJobs = jobs;
+// main function
+const filteredData = (jobs, selected, query, locationQuery) => {
+  let filteredJobs = jobs;
 
-    // Filtering input items
-    if (query) {
-      filteredJobs = filteredJobs.filter((job) => job.jobTitle.toLowerCase().indexOf(query.toLowerCase()) !== -1);
-    }
+  // Filtering input items
+  if (query) {
+    filteredJobs = filteredJobs.filter((job) => job.jobTitle.toLowerCase().indexOf(query.toLowerCase()) !== -1);
+  }
 
-    // Category filtering
-    if (selected) {
-      const selectedDate = new Date(selected);
-      filteredJobs = filteredJobs.filter(({ jobLocation, maxPrice, experienceLevel, salaryType, employmentType, postingDate }) =>
-        jobLocation.toLowerCase() === selected.toLowerCase() ||
-        parseInt(maxPrice) <= parseInt(selected) ||
-        experienceLevel.toLowerCase() === selected.toLowerCase() ||
-        salaryType.toLowerCase() === selected.toLowerCase() ||
-        employmentType.toLowerCase() === selected.toLowerCase() ||
-        new Date(postingDate) >= selectedDate
-      );
-    }
+  // Category filtering
+  if (selected) {
+    const selectedDate = new Date(selected);
+    filteredJobs = filteredJobs.filter(({ jobLocation, maxPrice, experienceLevel, salaryType, employmentType, postingDate }) =>
+      jobLocation.toLowerCase() === selected.toLowerCase() ||
+      parseInt(maxPrice) <= parseInt(selected) ||
+      experienceLevel.toLowerCase() === selected.toLowerCase() ||
+      salaryType.toLowerCase() === selected.toLowerCase() ||
+      employmentType.toLowerCase() === selected.toLowerCase() ||
+      new Date(postingDate) >= selectedDate
+    );
+  }
 
-    // Location filtering
-    if (locationQuery) {
-      filteredJobs = filteredJobs.filter((job) => job.jobLocation.toLowerCase().indexOf(locationQuery.toLowerCase()) !== -1);
-    }
+  // Location filtering
+  if (locationQuery) {
+    filteredJobs = filteredJobs.filter((job) => job.jobLocation.toLowerCase().indexOf(locationQuery.toLowerCase()) !== -1);
+  }
 
-    // Slice the data based on current page
-    const { startIndex, endIndex } = calculatePageRange();
-    filteredJobs = filteredJobs.slice(startIndex, endIndex);
-    return filteredJobs.map((data, i) => <Card key={i} data={data} />);
-  };
+  // Sort by posting date in descending order (latest first)
+  filteredJobs.sort((a, b) => new Date(b.postingDate) - new Date(a.postingDate));
+
+  // Slice the data based on current page
+  const { startIndex, endIndex } = calculatePageRange();
+  filteredJobs = filteredJobs.slice(startIndex, endIndex);
+  return filteredJobs.map((data, i) => <Card key={i} data={data} />);
+};
+
 
   const result = filteredData(jobs, selectedCategory, query, locationQuery);
 

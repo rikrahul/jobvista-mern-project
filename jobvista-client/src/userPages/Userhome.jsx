@@ -75,12 +75,12 @@ const Userhome = () => {
     // main function
     const filteredData = (jobs, selected, query, locationQuery) => {
         let filteredJobs = jobs;
-    
+      
         // Filtering input items
         if (query) {
           filteredJobs = filteredJobs.filter((job) => job.jobTitle.toLowerCase().indexOf(query.toLowerCase()) !== -1);
         }
-    
+      
         // Category filtering
         if (selected) {
           const selectedDate = new Date(selected);
@@ -93,11 +93,15 @@ const Userhome = () => {
             new Date(postingDate) >= selectedDate
           );
         }
-    
+      
         // Location filtering
         if (locationQuery) {
           filteredJobs = filteredJobs.filter((job) => job.jobLocation.toLowerCase().indexOf(locationQuery.toLowerCase()) !== -1);
         }
+      
+        // Sort by posting date in descending order (latest first)
+        filteredJobs.sort((a, b) => new Date(b.postingDate) - new Date(a.postingDate));
+      
     
         // Slice the data based on current page
         const { startIndex, endIndex } = calculatePageRange();
@@ -176,7 +180,7 @@ const Userhome = () => {
 
 {/*signup and login button*/}
 <div className='text-base text-primary font-medium space-x-5 hidden lg:block'>
-          <span className="text-gray-500">{storedEmail ? `Recruiter Panel - ${storedEmail}` : "Recruiter Panel"}</span>
+          <span className="text-gray-500">{storedEmail ? `User Panel - ${storedEmail}` : "USer Panel"}</span>
           <Link to="/" className='py-2 px-5 border rounded bg-blue text-white' onClick={handleLogout}>Log Out</Link>
         </div>
 

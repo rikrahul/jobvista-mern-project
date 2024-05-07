@@ -88,7 +88,7 @@ const SalaryPage = () => {
           {/*signup and login button*/}
           {/*signup and login button*/}
           <div className='text-base text-primary font-medium space-x-5 hidden lg:block'>
-            <span className="text-gray-500">{storedEmail ? `Recruiter Panel - ${storedEmail}` : "Recruiter Panel"}</span>
+            <span className="text-gray-500">{storedEmail ? `User Panel - ${storedEmail}` : "User Panel"}</span>
             <Link to="/" className='py-2 px-5 border rounded bg-blue text-white' onClick={handleLogout}>Log Out</Link>
           </div>
 

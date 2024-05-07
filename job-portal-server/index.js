@@ -3,6 +3,8 @@ const app = express();
 const cors = require('cors');
 const XLSX = require('xlsx');
 require('dotenv').config();
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
 app.use(express.json());
 app.use(cors());
@@ -41,9 +43,9 @@ async function run() {
       try {
         // Fetch data from collections concurrently
         const [jobsData, userSignupData, jobApplicationData] = await Promise.all([
-          jobsCollection.find({}).toArray(),
+          jobsCollections.find({}).toArray(),
           userSignupCollection.find({}).toArray(),
-          jobApplicationCollection.find({}).toArray()
+          jobApplcationCollection.find({}).toArray()
         ]);
 
         // Convert data to Excel format

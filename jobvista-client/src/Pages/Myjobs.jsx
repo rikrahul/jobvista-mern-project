@@ -182,7 +182,7 @@ const Myjobs = () => {
                               {job.companyName}
                             </td>
                             <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                              ${job.minPrice}-${job.maxPrice}
+                              {job.minPrice}-{job.maxPrice}
                             </td>
                             <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
                               <button><Link to={`/edit-job/${job?._id}`}>Edit</Link></button>

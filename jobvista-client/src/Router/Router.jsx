@@ -24,6 +24,7 @@ import RmyJobs from "../recruiterPages/RmyJobs";
 import RUpdateJob from "../recruiterPages/RUpdateJob";
 import RCreateJob from "../recruiterPages/RCreateJob";
 import RJobApplicants from "../recruiterPages/RJobApplicants";
+import RJobsDetails from "../recruiterPages/RJobsDetails";
 
 const router = createBrowserRouter([
   {
@@ -123,7 +124,15 @@ const router = createBrowserRouter([
   {
     path: "/rjob-applicants",
     element: <RJobApplicants/>
+  },
+  {
+    path: "/rjob/:id",
+    element: <RJobsDetails />
   }
+  // {
+  //   path: "/Ujob/:id",
+  //   element: <Userjobdetails />
+  // }
 
 ]);
 

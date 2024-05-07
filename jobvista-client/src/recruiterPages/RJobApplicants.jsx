@@ -3,11 +3,12 @@ import { Link } from 'react-router-dom';
 import RNavbar from './RNavbar';
 
 const RJobApplicants = () => {
-    const [application, setApplications] = useState([]);
+    const [applications, setApplications] = useState([]);
     const [jobs, setJobs] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [statusFilter, setStatusFilter] = useState('');
     const [sortBy, setSortBy] = useState('');
+    const [searchQuery, setSearchQuery] = useState('');
 
     useEffect(() => {
         // Fetch application data
@@ -70,10 +71,17 @@ const RJobApplicants = () => {
     };
 
     // Apply filters and sorting
-    let filteredApplications = [...application];
+    let filteredApplications = [...applications];
 
     if (statusFilter) {
         filteredApplications = filteredApplications.filter(app => app.status === statusFilter);
+    }
+
+    if (searchQuery) {
+        filteredApplications = filteredApplications.filter(app => {
+            const jobDetails = jobs.find(job => job._id === app.jobId);
+            return jobDetails && jobDetails.companyName.toLowerCase().includes(searchQuery.toLowerCase());
+        });
     }
 
     if (sortBy === 'latest') {
@@ -93,7 +101,16 @@ const RJobApplicants = () => {
                 <div className='font-bold text-lg text-center'>
                     Job Applicants : {filteredApplications.length}
                 </div>
-
+            {/* Search field */}
+            <div className="flex justify-center mt-4">
+                <input
+                    type="text"
+                    placeholder="Search by company name"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className="border-2 text-center border-gray-400 rounded-md px-2 py-1 mr-2 w-60"
+                />
+            </div>
                 <div className='py-2'>
                     {/* Filter and sort controls */}
                     <div className="flex justify-end items-center mb-4">

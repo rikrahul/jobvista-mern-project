@@ -93,7 +93,7 @@ const filteredData = (jobs, selected, query, locationQuery) => {
 
   // Sort by posting date in descending order (latest first)
   filteredJobs.sort((a, b) => new Date(b.postingDate) - new Date(a.postingDate));
-
+  // filteredJobs.reverse();
   // Slice the data based on current page
   const { startIndex, endIndex } = calculatePageRange();
   filteredJobs = filteredJobs.slice(startIndex, endIndex);

@@ -67,26 +67,30 @@ const RCreateJob = () => {
                     <div className="create-job-flex">
                         <div className="lg:w-1/2 w-full">
                             <label className="block mb-2 text-lg">Job Title</label>
-                            <input type="text" defaultValue={"web Developer"}
-                                {...register("jobTitle")} className="create-job-input" />
+                            <input type="text" placeholder="Example: Web Developer"
+                                {...register("jobTitle", { required: true })} className="create-job-input" />
+                                {errors.jobTitle && <span className="text-red-500">Job Title is required</span>}
                         </div>
                         <div className="lg:w-1/2 w-full">
                             <label className="block mb-2 text-lg">Company Name</label>
                             <input type="text" placeholder="Example: Microsoft"
-                                {...register("companyName")} className="create-job-input" />
+                                {...register("companyName", { required: true })} className="create-job-input" />
+                                {errors.jobTitle && <span className="text-red-500">Company Name is required</span>}
                         </div>
                     </div>
                     {/* 2nd row */}
                     <div className="create-job-flex">
                         <div className="lg:w-1/2 w-full">
                             <label className="block mb-2 text-lg">Minimum Salary</label>
-                            <input type="text" placeholder="$20k"
-                                {...register("minPrice")} className="create-job-input" />
+                            <input type="text" placeholder="20k"
+                                {...register("minPrice", { required: true })} className="create-job-input" />
+                                {errors.jobTitle && <span className="text-red-500">Minimum Salary is required</span>}
                         </div>
                         <div className="lg:w-1/2 w-full">
                             <label className="block mb-2 text-lg">Maximum Salary</label>
-                            <input type="text" placeholder="$120k"
-                                {...register("maxPrice")} className="create-job-input" />
+                            <input type="text" placeholder="120k"
+                                {...register("maxPrice", { required: true })} className="create-job-input" />
+                                {errors.jobTitle && <span className="text-red-500">Maximum Salary is required</span>}
                         </div>
                     </div>
 
@@ -94,17 +98,19 @@ const RCreateJob = () => {
                     <div className="create-job-flex">
                         <div className="lg:w-1/2 w-full">
                             <label className="block mb-2 text-lg">Salary Type</label>
-                            <select {...register("salaryType")} className="create-job-input">
+                            <select {...register("salaryType", { required: true })} className="create-job-input">
                                 <option value="">Choose your Salary</option>
                                 <option value="Hourly">Hourly</option>
                                 <option value="Monthly">Monthly</option>
                                 <option value="Yearly">Yearly</option>
                             </select>
+                            {errors.jobTitle && <span className="text-red-500">Salary Type is required</span>}
                         </div>
                         <div className="lg:w-1/2 w-full">
                             <label className="block mb-2 text-lg">Job Location</label>
                             <input type="text" placeholder="Example: Delhi"
-                                {...register("jobLocation")} className="create-job-input" />
+                                {...register("jobLocation", { required: true })} className="create-job-input" />
+                                {errors.jobTitle && <span className="text-red-500">Job Location is required</span>}
                         </div>
                     </div>
 
@@ -113,11 +119,12 @@ const RCreateJob = () => {
                         <div className="lg:w-1/2 w-full">
                             <label className="block mb-2 text-lg">Job Posting Date</label>
                             <input type="date" placeholder="Example: 2023-10-28"
-                                {...register("postingDate")} className="create-job-input" />
+                                {...register("postingDate", { required: true })} className="create-job-input" />
+                                {errors.jobTitle && <span className="text-red-500">Job Posting Date is required</span>}
                         </div>
                         <div className="lg:w-1/2 w-full">
                             <label className="block mb-2 text-lg">Experience Level</label>
-                            <select {...register("experienceLevel")} className="create-job-input">
+                            <select {...register("experienceLevel", { required: true })} className="create-job-input">
                                 <option value="">Select your Experience Level</option>
                                 <option value="No Experience">No Experience</option>
                                 <option value="less than 1yr">less than 1yr</option>
@@ -125,6 +132,7 @@ const RCreateJob = () => {
                                 <option value="2yr-5yr">2yr-5yr</option>
                                 <option value="more than 5yr">more than 5yr</option>
                             </select>
+                            {errors.jobTitle && <span className="text-red-500">Experience Level is required</span>}
                         </div>
 
                     </div>

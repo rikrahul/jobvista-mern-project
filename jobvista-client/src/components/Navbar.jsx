@@ -47,7 +47,7 @@ const Navbar = () => {
   return (
     <header className='max-w-screen-2x1 container mx-auto xl:px-24 px-4'>
         <nav className='flex justify-between items-center py-6'>
-            <a href="#" className="flex items-center gap-2 text-2xl text-black">
+            <a href="/home" className="flex items-center gap-2 text-2xl text-black">
                 <svg xmlns="http://www.w3.org/2000/svg" width="37" height="36" viewBox="0 0 37 36" fill="none">
   <ellipse cx="22.5" cy="21" rx="14.5" ry="15" fill="#3575E2"/>
   <ellipse cx="14.5" cy="15" rx="14.5" ry="15" fill="#3575E2" fillOpacity="0.3"/>
